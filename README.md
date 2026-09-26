@@ -475,8 +475,8 @@ Potential extensions of the project include:
 
 | Student ID | Name      |
 | ---------- | --------- |
-| YOUR_ID    | YOUR_NAME |
-| YOUR_ID    | YOUR_NAME |
+| IT23259584    | Karunarathne K.D.N.S. |
+| IT23309142    | Mihiranga U.G.P.G. |
 | IT23153486    | NAVODYANI W M B |
 | IT23322912    | WEERATHUNGA V K |
 
