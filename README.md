@@ -1,400 +1,195 @@
-# 🧠 SE4050 – Deep Learning Project
+<div align="center">
 
-## Breast Cancer Classification Using Deep Learning
+# 🧠 SE4050 – Deep Learning Group Project
 
-A deep learning-based classification project developed for the **SE4050 – Deep Learning** module at **SLIIT**. The project investigates different neural network approaches for classifying breast tumor cases into **malignant** and **benign** categories using structured diagnostic data.
+## 🎗️ Breast Cancer Classification Using Deep Learning
 
----
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![Google Colab](https://img.shields.io/badge/Google-Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)
 
-## 📌 Project Overview
+**Group ID:** `SE4050_G10` · **Academic Year:** `Y4S1 – 2026`
 
-Breast cancer diagnosis involves analyzing various characteristics of cell nuclei to determine whether a tumor is malignant or benign. This project explores how **deep learning techniques** can be applied to structured medical data to develop an automated classification system.
+</div>
 
-The study focuses on developing, training, and evaluating multiple deep learning architectures. The models are compared using several classification metrics to identify the architecture that provides the most reliable predictive performance.
+This project was completed for the **SE4050 – Deep Learning** module at the **Sri Lanka Institute of Information Technology (SLIIT)**. It compares four supervised deep-learning architectures for classifying breast tumour records as either **benign** or **malignant** using the Breast Cancer Wisconsin Diagnostic dataset.
 
-> **Important:** This project is intended as an academic decision-support study and does not replace professional medical diagnosis.
+> **Important:** This is an academic experiment and is not intended to replace diagnosis or decisions made by qualified medical professionals.
 
 ---
 
 ## 📑 Contents
 
-1. [Project Overview](#-project-overview)
-2. [Problem Statement](#-problem-statement)
-3. [Dataset](#-dataset)
-4. [Project Objectives](#-project-objectives)
-5. [Data Preparation](#-data-preparation)
-6. [Deep Learning Models](#-deep-learning-models)
-7. [Model Evaluation](#-model-evaluation)
-8. [Results](#-results)
-9. [Technology Stack](#-technology-stack)
-10. [Project Workflow](#-project-workflow)
-11. [Installation](#-installation)
-12. [Project Structure](#-project-structure)
-13. [Limitations](#-limitations)
-14. [Contributors](#-contributors)
+- [Project Overview](#project-overview)
+- [Problem Statement](#problem-statement)
+- [Dataset](#dataset)
+- [Project Objectives](#project-objectives)
+- [Data Preparation](#data-preparation)
+- [Model Architectures](#model-architectures)
+- [Model Evaluation](#model-evaluation)
+- [Final Results](#final-results)
+- [Project Workflow](#project-workflow)
+- [Technology Stack](#technology-stack)
+- [Running the Project](#running-the-project)
+- [Repository Structure](#repository-structure)
+- [Limitations](#limitations)
+- [Future Improvements](#future-improvements)
+- [Contributors](#contributors)
 
 ---
+
+## 📌 Project Overview
+
+Breast-cancer classification requires several measurements describing the size, shape and texture of cell nuclei to be considered together. This project investigates how different neural-network architectures learn from those numerical measurements and whether more advanced architectures provide a meaningful improvement over simpler models.
+
+The four models were developed and compared using a consistent workflow that included dataset inspection, exploratory data analysis, feature standardisation, stratified data splitting, model training and test-set evaluation. Performance was assessed using accuracy, precision, recall, F1-score, ROC-AUC, learning curves, classification reports and confusion matrices.
 
 ## 🔍 Problem Statement
 
-Traditional diagnostic processes require medical professionals to carefully examine patient and laboratory information. Machine learning and deep learning techniques can potentially assist this process by identifying patterns within diagnostic datasets.
+The central problem addressed by the project is:
 
-The main problem addressed by this project is:
+> How can four distinct supervised deep-learning architectures be developed and fairly compared for benign and malignant breast-tumour classification using consistent preprocessing and comprehensive evaluation metrics?
 
-> **How effectively can deep learning models classify breast tumors as malignant or benign using numerical diagnostic features?**
-
-The project compares different neural network architectures rather than relying on a single model, allowing their strengths and weaknesses to be investigated.
-
----
+False-negative predictions are especially important because they represent malignant cases incorrectly classified as benign. Therefore, the comparison considers recall and confusion-matrix results in addition to overall accuracy.
 
 ## 📊 Dataset
 
-The project uses the **Breast Cancer Wisconsin (Diagnostic) Dataset**, which contains numerical measurements describing characteristics of cell nuclei obtained from digitized breast mass images.
+The project uses the **Breast Cancer Wisconsin Diagnostic dataset**, which contains measurements obtained from digitised images of fine-needle aspirate samples of breast masses.
 
-### Dataset Characteristics
+| Property | Description |
+| --- | --- |
+| Total records | 569 |
+| Original columns | 33 |
+| Model input features | 30 numerical features |
+| Benign records | 357 |
+| Malignant records | 212 |
+| Classification task | Binary classification |
+| Target encoding | Benign = 0, Malignant = 1 |
 
-| Property            | Description                                                                    |
-| ------------------- | ------------------------------------------------------------------------------ |
-| Total samples       | 569                                                                            |
-| Input features      | 30 numerical features                                                          |
-| Classification type | Binary classification                                                          |
-| Malignant class     | M                                                                              |
-| Benign class        | B                                                                              |
-| Feature examples    | Radius, texture, perimeter, area, smoothness, compactness, concavity, symmetry |
+The features describe ten main cell-nucleus characteristics: radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry and fractal dimension. Each characteristic is represented using mean, standard-error and worst-case measurements.
 
-The dataset contains two target categories:
+### Class Distribution
 
-* **Malignant (M)** – cancerous tumor
-* **Benign (B)** – non-cancerous tumor
-
-Before model training, the categorical diagnosis labels are converted into numerical values suitable for binary classification.
-
----
+```text
+Benign (B)    ███████████████████████████████  357 (62.74%)
+Malignant (M) ██████████████████               212 (37.26%)
+```
 
 ## 🎯 Project Objectives
 
-The main objectives of this project are:
-
-1. Prepare and clean the breast cancer diagnostic dataset.
-2. Perform exploratory analysis to understand the characteristics of the data.
-3. Apply appropriate preprocessing and feature scaling techniques.
-4. Develop multiple deep learning classification models.
-5. Train and validate each architecture using a consistent experimental setup.
-6. Compare the models using suitable classification metrics.
-7. Analyze false-positive and false-negative predictions.
-8. Identify the most suitable architecture based on experimental results.
-9. Investigate whether deep learning can provide reliable classification performance on structured diagnostic data.
-
----
+1. Inspect and clean the selected breast-cancer dataset.
+2. Explore the class distribution and relationships among the diagnostic features.
+3. Encode the diagnosis labels and standardise the numerical input features.
+4. Divide the data into stratified training, validation and test sets.
+5. Prevent data leakage by fitting preprocessing operations only on training data.
+6. Develop and train four different supervised learning architectures.
+7. Evaluate the models using multiple classification metrics and visualisations.
+8. Compare predictive performance, learning behaviour and model complexity.
+9. Identify the best-performing model and discuss the limitations of the experiment.
 
 ## ⚙️ Data Preparation
 
-The dataset goes through several preprocessing stages before being provided to the neural networks.
+The following preprocessing steps were applied before model development:
 
-### 1. Data Cleaning
+1. The completely empty `Unnamed: 32` column was removed.
+2. The `id` column was excluded because it does not describe a medical characteristic of the tumour.
+3. Diagnosis labels were encoded as `B = 0` and `M = 1`.
+4. Stratified splitting was used to preserve similar class proportions across the data subsets.
+5. The 30 numerical features were standardised using `StandardScaler`.
+6. The scaler was fitted only on the training set and then applied to the validation and test sets to reduce data leakage.
 
-Unnecessary attributes that do not contribute to the prediction task are removed.
+The common experimental split described in the report contains 397 training records, 86 validation records and 86 test records.
 
-Examples include:
+## 🧠 Model Architectures
 
-* Patient/sample identification fields
-* Empty or irrelevant columns
-* Duplicate records, if identified
+### 1️⃣ Model 1 – Standard Multi-Layer Perceptron (MLP)
 
-### 2. Target Encoding
+The baseline model uses 30 standardised inputs, two fully connected hidden layers with 64 and 32 neurons, ReLU activation and a sigmoid output layer. It provides a relatively simple and computationally efficient reference model.
 
-The diagnosis variable is converted into a binary representation:
+### 2️⃣ Model 2 – Deep Embedded Forest (DEF)
 
-```text
-Benign    → 0
-Malignant → 1
-```
+This hybrid architecture uses a neural network to transform the original features into a compact 16-dimensional embedding. The learned representation is then supplied to a Random Forest classifier for the final prediction.
 
-### 3. Dataset Splitting
+### 3️⃣ Model 3 – Pre-Activation Residual Neural Network
 
-The dataset is divided into training, validation, and testing subsets.
+The Pre-Activation ResNet uses batch normalisation and ReLU activation before dense transformations. Shortcut connections allow information to pass directly through residual blocks, while dropout, early stopping and learning-rate reduction support stable training. The model contains 25,377 parameters.
 
-A **stratified splitting strategy** is used so that both classes remain reasonably represented across the subsets.
+### 4️⃣ Model 4 – Wide & Deep Neural Network
 
-### 4. Feature Scaling
-
-Because the input variables have different numerical ranges, feature normalization/standardization is applied before training.
-
-The standardization process follows:
-
-```text
-z = (x - μ) / σ
-```
-
-where:
-
-* `x` = original feature value
-* `μ` = feature mean
-* `σ` = feature standard deviation
-
-The scaler is fitted using the training data to prevent information leakage.
-
----
-
-## 🧠 Deep Learning Models
-
-To provide a meaningful comparison, several neural network architectures are investigated.
-
-### 1️⃣ Fully Connected Neural Network
-
-The first model acts as the baseline deep learning architecture.
-
-A series of fully connected layers are used to learn relationships between the diagnostic features.
-
-Example structure:
-
-```text
-Input Features
-      ↓
-Dense Layer
-      ↓
-ReLU Activation
-      ↓
-Dropout
-      ↓
-Dense Layer
-      ↓
-ReLU Activation
-      ↓
-Output Layer
-      ↓
-Sigmoid
-```
-
-This model provides a reference point for evaluating the more advanced architectures.
-
----
-
-### 2️⃣ Residual Neural Network
-
-A residual architecture is investigated to determine whether shortcut connections can improve learning and gradient propagation.
-
-The general concept is:
-
-```text
-Input
-  │
-  ├───────────────┐
-  ↓               │
-Dense → BN → ReLU │
-  ↓               │
-Dense → BN        │
-  ↓               │
-  + ←─────────────┘
-  ↓
-Activation
-```
-
-Residual connections allow information to bypass one or more layers and can make deeper networks easier to optimize.
-
----
-
-### 3️⃣ Wide & Deep Architecture
-
-A Wide & Deep model combines two learning pathways:
-
-* **Wide component** – captures direct relationships between features.
-* **Deep component** – learns more complex nonlinear patterns.
-
-Conceptually:
-
-```text
-                    Input Features
-                         │
-              ┌──────────┴──────────┐
-              ↓                     ↓
-          Wide Path             Deep Path
-              │              Dense → ReLU
-              │              Dense → ReLU
-              │              Dense → ReLU
-              │                     │
-              └──────────┬──────────┘
-                         ↓
-                     Combined
-                         ↓
-                    Output Layer
-                         ↓
-                      Sigmoid
-```
-
-This architecture is evaluated to determine whether combining shallow and deep representations improves classification performance.
-
----
-
-### 4️⃣ Deep Embedded Forest
-
-A hybrid approach combining deep learning with a traditional ensemble classifier is also investigated.
-
-The process consists of two stages:
-
-```text
-Raw Diagnostic Features
-          ↓
-    Neural Network
-          ↓
- Learned Feature Representation
-          ↓
-   Random Forest Classifier
-          ↓
-   Final Prediction
-```
-
-The neural network learns a compact representation of the original features, which is then provided to the Random Forest classifier.
-
-This allows the project to compare a purely neural approach with a hybrid deep-learning and ensemble-learning approach.
-
----
+This architecture contains two parallel paths. The wide branch learns direct relationships between the input features and the output, while the deep branch uses dense layers of 128, 64 and 32 units to learn nonlinear relationships. The two outputs are combined before the final sigmoid activation.
 
 ## 📈 Model Evaluation
 
-The models are evaluated using multiple metrics rather than accuracy alone.
+The following measures were used to evaluate and compare the models:
 
-### Accuracy
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- ROC-AUC
+- Classification report
+- Confusion matrix
+- ROC curve
+- Training and validation learning curves
+- Training time and model complexity
 
-Measures the proportion of correctly classified samples.
+## 🧪 Final Results
 
-```text
-Accuracy = (TP + TN) / (TP + TN + FP + FN)
-```
+| Model | Accuracy | Precision | Recall | F1-score | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Standard MLP | 98.84% | 98.86% | 98.84% | 98.83% | 98.29% |
+| Deep Embedded Forest | 98.25% | 98.00% | 98.00% | 98.00% | Not reported |
+| Wide & Deep Network | 97.67% | 100.00% | 93.75% | 96.77% | 100.00% |
+| Pre-Activation ResNet | **100.00%** | **100.00%** | **100.00%** | **100.00%** | **100.00%** |
 
-### Precision
+> **Result summary:** All four models achieved more than 97% test accuracy. The Pre-Activation ResNet produced the highest result on its selected test split, while the Standard MLP provided an excellent balance between performance and simplicity.
 
-Measures how many predicted malignant cases are actually malignant.
+### 🏆 Best-Performing Model
 
-```text
-Precision = TP / (TP + FP)
-```
+The **Pre-Activation ResNet** achieved the highest results across all reported evaluation metrics. It correctly classified all 86 records in its selected test split, including 54 benign and 32 malignant records.
 
-### Recall / Sensitivity
+These perfect scores must still be interpreted carefully. The dataset contains only 569 records, and the result was obtained from a single test split. It does not guarantee equivalent performance on independent real-world clinical data.
 
-Measures how many actual malignant cases are correctly identified.
-
-```text
-Recall = TP / (TP + FN)
-```
-
-For this application, recall is particularly important because a **false negative** represents a malignant case incorrectly classified as benign.
-
-### F1-Score
-
-Provides a balance between precision and recall.
-
-```text
-F1 = 2 × (Precision × Recall) / (Precision + Recall)
-```
-
-### ROC-AUC
-
-The Area Under the Receiver Operating Characteristic Curve is used to assess the model's ability to distinguish between the two classes across different classification thresholds.
-
-### Confusion Matrix
-
-Confusion matrices are generated to examine:
-
-* True Positives
-* True Negatives
-* False Positives
-* False Negatives
-
----
-
-## 🧪 Results
-
-The final performance results will be added after completing model training and testing.
-
-| Model                          | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
-| ------------------------------ | -------: | --------: | -----: | -------: | ------: |
-| Fully Connected Neural Network |      TBD |       TBD |    TBD |      TBD |     TBD |
-| Residual Neural Network        |      TBD |       TBD |    TBD |      TBD |     TBD |
-| Wide & Deep Network            |      TBD |       TBD |    TBD |      TBD |     TBD |
-| Deep Embedded Forest           |      TBD |       TBD |    TBD |      TBD |     TBD |
-
-### 📌 Best Performing Model
-
-After completing the experiments, the models will be ranked based on their test-set performance.
-
-Special attention will be given to **malignant-class recall** and the number of **false-negative predictions**, since failing to identify a malignant case is particularly important in this application.
-
----
+The **Standard MLP** also produced strong results and provides an attractive balance between predictive performance, computational efficiency and ease of implementation.
 
 ## 🔄 Project Workflow
 
-The overall methodology can be summarized as:
-
 ```text
-                Dataset
-                   ↓
-             Data Cleaning
-                   ↓
-          Exploratory Analysis
-                   ↓
-            Label Encoding
-                   ↓
-          Stratified Splitting
-                   ↓
-          Feature Standardization
-                   ↓
-       ┌───────────┼────────────┐
-       ↓           ↓            ↓
-      DNN       ResNet       Wide & Deep
-       │           │            │
-       └───────────┼────────────┘
-                   ↓
-          Model Evaluation
-                   ↓
-        Performance Comparison
-                   ↓
-          Best Model Selection
+Dataset Collection and Inspection
+              ↓
+Exploratory Data Analysis
+              ↓
+Data Cleaning and Target Encoding
+              ↓
+Stratified Train/Validation/Test Split
+              ↓
+Training-Only Feature Standardisation
+              ↓
+Development and Training of Four Models
+              ↓
+Test-Set Evaluation
+              ↓
+Performance Comparison and Best-Model Selection
 ```
-
-The hybrid model follows an additional feature-learning and classification stage.
-
----
 
 ## 🛠️ Technology Stack
 
-### Programming Language
+- **Programming language:** Python
+- **Deep learning:** TensorFlow, Keras
+- **Machine learning and evaluation:** Scikit-learn
+- **Data processing:** Pandas, NumPy
+- **Visualisation:** Matplotlib, Seaborn
+- **Development environment:** Google Colab / Jupyter Notebook
+- **Version control:** Git and GitHub
 
-* Python
+## 🚀 Running the Project
 
-### Deep Learning
-
-* TensorFlow
-* Keras
-
-### Machine Learning
-
-* Scikit-learn
-
-### Data Processing
-
-* NumPy
-* Pandas
-
-### Visualization
-
-* Matplotlib
-* Seaborn
-
-### Development Environment
-
-* Jupyter Notebook / Google Colab
-* Python virtual environment
-
----
-
-## 📦 Installation
-
-Clone the project repository:
+Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/nimasha20020207/DL_Assignment_Y4S1.git
+cd DL_Assignment_Y4S1
 ```
 
 Install the required dependencies:
@@ -403,88 +198,70 @@ Install the required dependencies:
 pip install -r requirements.txt
 ```
 
-Run the analysis:
+Open the notebook for the required model in Google Colab or Jupyter Notebook and run its cells from top to bottom. Ensure that `Cancer_Data.csv` is available in the notebook's working directory.
 
-```bash
-python cancer_analysis.py
-```
-
-Alternatively, open the provided Jupyter Notebook to execute the project step by step.
-
----
-
-## 📁 Project Structure
+## 📁 Repository Structure
 
 ```text
-Breast-Cancer-Deep-Learning/
-│
-├── data/
-│   └── breast_cancer_dataset.csv
-│
-├── notebooks/
-│   └── cancer_analysis.ipynb
-│
-├── src/
-│   ├── preprocessing.py
-│   ├── models.py
-│   ├── training.py
-│   └── evaluation.py
-│
-├── results/
-│   ├── confusion_matrices/
-│   ├── training_curves/
-│   └── model_comparison.csv
-│
+DL_Assignment_Y4S1/
+├── Cancer_Data.csv
+├── IT23259584.ipynb    # Model 1 – Standard MLP
+├── IT23309142.ipynb    # Model 2 – Deep Embedded Forest
+├── IT23153486.ipynb    # Model 3 – Pre-Activation ResNet
+├── IT23322912.ipynb    # Model 4 – Wide & Deep Network
 ├── requirements.txt
-├── README.md
-└── cancer_analysis.py
+└── README.md
 ```
-
----
 
 ## ⚠️ Limitations
 
-Although the models may achieve strong predictive performance, several limitations should be considered:
+- The dataset contains only 569 records.
+- The models were evaluated using a single data split.
+- The data consists of structured measurements rather than raw medical images.
+- Results may vary with a different random split or execution environment.
+- The perfect ResNet result may be optimistic because of the small test set.
+- Performance on independent clinical datasets has not been evaluated.
+- The predictions must not be treated as standalone medical diagnoses.
 
-* The dataset contains only 569 samples.
-* The data consists of structured diagnostic measurements rather than raw medical images.
-* High test performance on this dataset does not guarantee performance on external clinical populations.
-* The dataset may not represent all demographic and clinical variations.
-* A deep learning prediction should not be interpreted as a standalone medical diagnosis.
+## 💡 Future Improvements
 
-Future work could evaluate the models on larger and more diverse datasets and investigate external validation.
+- Repeated stratified evaluation or k-fold cross-validation
+- Hyperparameter optimisation
+- Evaluation using larger independent datasets
+- Classification-threshold optimisation to reduce false negatives
+- Explainable AI methods such as SHAP
+- Probability calibration and model uncertainty analysis
 
----
+## 👥 Contributors
 
-## 🚀 Future Improvements
+| Student ID | Student Name | Contribution |
+| --- | --- | --- |
+| IT23259584 | Karunarathne K.D.N.S. | Model 1 – Standard Multi-Layer Perceptron |
+| IT23309142 | Mihiranga U.G.P.G. | Model 2 – Deep Embedded Forest |
+| IT23153486 | Navodyani W.M.B. | Model 3 – Pre-Activation Residual Neural Network |
+| IT23322912 | Weerathunga V.K. | Model 4 – Wide & Deep Neural Network |
 
-Potential extensions of the project include:
+## 📤 Submission Notes
 
-* Hyperparameter optimization.
-* Cross-validation for more robust performance estimation.
-* Class-weighting strategies.
-* Explainable AI techniques such as SHAP.
-* Calibration of prediction probabilities.
-* External dataset validation.
-* Ensemble approaches combining multiple models.
-* Development of a simple web-based diagnostic-support interface.
+Before submitting the project to Gradescope:
 
----
+- Run every notebook from top to bottom without errors.
+- Keep the final cell outputs, metrics and graphs saved.
+- Include all four member notebooks, `Cancer_Data.csv`, `README.md` and `requirements.txt`.
+- Confirm that the filenames match the student IDs.
+- Follow the lecturer's instructions on whether to upload individual files or a single ZIP archive.
 
-## 👨‍💻 Contributors
+## 🎓 Academic Context
 
-| Student ID | Name      |
-| ---------- | --------- |
-| IT23259584    | Karunarathne K.D.N.S. |
-| IT23309142    | Mihiranga U.G.P.G. |
-| IT23153486    | NAVODYANI W M B |
-| IT23322912    | WEERATHUNGA V K |
+- **Module:** SE4050 – Deep Learning
+- **Institution:** Sri Lanka Institute of Information Technology (SLIIT)
+- **Group ID:** SE4050_G10
+- **Academic Year:** Y4S1 – 2026
+- **Repository:** <https://github.com/nimasha20020207/DL_Assignment_Y4S1.git>
 
----
+## 📚 References
 
-## 📚 Academic Context
-
-**Module:** SE4050 – Deep Learning
-**Institution:** Sri Lanka Institute of Information Technology (SLIIT)
-**Project:** Breast Cancer Classification using Deep Learning
-**Academic Year:** 2026
+1. [UCI Machine Learning Repository – Breast Cancer Wisconsin Diagnostic Dataset](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic)
+2. [TensorFlow Documentation](https://www.tensorflow.org/)
+3. [Keras Documentation](https://keras.io/)
+4. [Scikit-learn Documentation](https://scikit-learn.org/)
